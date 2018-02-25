@@ -4,11 +4,11 @@ using School.Data.Entity;
 
 namespace School.Data.Mappping
 {
-    public class TeacherMap:IEntityTypeConfiguration<Teacher>
+    public class AdminMap : IEntityTypeConfiguration<Admin>
     {
-        public void Configure(EntityTypeBuilder<Teacher> builder)
+        public void Configure(EntityTypeBuilder<Admin> builder)
         {
-            builder.Property(p => p.Salary).IsRequired();
+            builder.Property(p => p.Role).IsRequired();
         }
     }
 }

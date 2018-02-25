@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180225114348_Member.cs" />
+    <Compile Remove="Migrations\20180225114459_MemberMigration.cs" />
+    <Compile Remove="Migrations\20180225115107_DeleteMigration.cs" />
+    <Compile Remove="Migrations\20180225115346_DeleteMigration.cs" />
+    <Compile Remove="Migrations\20180225115616_DeleteMigration.cs" />
+    <Compile Remove="Migrations\20180225115830_DeleteMigration.cs" />
+    <Compile Remove="Migrations\20180225115934_DeleteMigration.cs" />
+    <Compile Remove="Migrations\20180225120103_DeleteMigration.cs" />
+    <Compile Remove="Migrations\20180225120828_MemberMigration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
   </ItemGroup>

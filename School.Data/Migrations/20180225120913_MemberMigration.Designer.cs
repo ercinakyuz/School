@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using School.Common.Enum;
 using School.Data.Context;
 using System;
 
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20180224234112_User")]
-    partial class User
+    [Migration("20180225120913_MemberMigration")]
+    partial class MemberMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,17 @@ namespace School.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("School.Data.Entity.Admin", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("Role");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admin");
+                });
 
             modelBuilder.Entity("School.Data.Entity.Classroom", b =>
                 {
@@ -59,15 +71,29 @@ namespace School.Data.Migrations
                     b.ToTable("Lesson");
                 });
 
+            modelBuilder.Entity("School.Data.Entity.Member", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email")
+                        .IsRequired();
+
+                    b.Property<string>("Firstname");
+
+                    b.Property<string>("Lastname");
+
+                    b.Property<string>("Password")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Member");
+                });
+
             modelBuilder.Entity("School.Data.Entity.Student", b =>
                 {
                     b.Property<int>("Id");
-
-                    b.Property<string>("Firstname")
-                        .IsRequired();
-
-                    b.Property<string>("Lastname")
-                        .IsRequired();
 
                     b.Property<string>("Number")
                         .IsRequired();
@@ -92,14 +118,7 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entity.Teacher", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Firstname")
-                        .IsRequired();
-
-                    b.Property<string>("Lastname")
-                        .IsRequired();
+                    b.Property<int>("Id");
 
                     b.Property<decimal>("Salary");
 
@@ -108,20 +127,12 @@ namespace School.Data.Migrations
                     b.ToTable("Teacher");
                 });
 
-            modelBuilder.Entity("School.Data.Entity.User", b =>
+            modelBuilder.Entity("School.Data.Entity.Admin", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
+                    b.HasOne("School.Data.Entity.Member", "Member")
+                        .WithOne("Admin")
+                        .HasForeignKey("School.Data.Entity.Admin", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("School.Data.Entity.Lesson", b =>
@@ -139,7 +150,7 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entity.Student", b =>
                 {
-                    b.HasOne("School.Data.Entity.User", "User")
+                    b.HasOne("School.Data.Entity.Member", "Member")
                         .WithOne("Student")
                         .HasForeignKey("School.Data.Entity.Student", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -150,11 +161,19 @@ namespace School.Data.Migrations
                     b.HasOne("School.Data.Entity.Lesson", "Lesson")
                         .WithMany("Students")
                         .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("School.Data.Entity.Student", "Student")
                         .WithMany("Lessons")
                         .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("School.Data.Entity.Teacher", b =>
+                {
+                    b.HasOne("School.Data.Entity.Member", "Member")
+                        .WithOne("Teacher")
+                        .HasForeignKey("School.Data.Entity.Teacher", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

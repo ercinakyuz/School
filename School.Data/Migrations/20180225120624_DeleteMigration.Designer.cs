@@ -12,9 +12,10 @@ using System;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    partial class SchoolContextModelSnapshot : ModelSnapshot
+    [Migration("20180225120624_DeleteMigration")]
+    partial class DeleteMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,20 +153,18 @@ namespace School.Data.Migrations
                     b.HasOne("School.Data.Entity.Member", "Member")
                         .WithOne("Student")
                         .HasForeignKey("School.Data.Entity.Student", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("School.Data.Entity.StudentLesson", b =>
                 {
                     b.HasOne("School.Data.Entity.Lesson", "Lesson")
                         .WithMany("Students")
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("LessonId");
 
                     b.HasOne("School.Data.Entity.Student", "Student")
                         .WithMany("Lessons")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("StudentId");
                 });
 
             modelBuilder.Entity("School.Data.Entity.Teacher", b =>

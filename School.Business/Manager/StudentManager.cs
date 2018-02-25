@@ -18,9 +18,10 @@ namespace School.Business.Manager
             var studentList = _studentRepository.GetAll();
             return studentList.Select(student=>new StudentListDto
             {
-                Firstname = student.Firstname,
+                Firstname = student.Member.Firstname,
                 Number = student.Number,
-                Lastname = student.Lastname
+                Lastname = student.Member.Lastname,
+                Email = student.Member.Email
             });
         }
     }
@@ -30,5 +31,6 @@ namespace School.Business.Manager
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Number { get; set; }
+        public string Email { get; set; }
     }
 }

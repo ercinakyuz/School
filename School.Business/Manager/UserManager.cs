@@ -6,19 +6,19 @@ namespace School.Business.Manager
 {
     public class UserManager
     {
-        private readonly BaseRepository<User> _userRepository;
+        private readonly BaseRepository<Member> _memberRepository;
         public UserManager()
         {
-            _userRepository = RepositoryFactory.Create<User>();
+            _memberRepository = RepositoryFactory.Create<Member>();
         }
 
         public UserDto GetUser(UserLoginDto dto)
         {
-            var user = _userRepository.FindByPredicate(x => x.Name == dto.Username && x.Password == EncryptionHelper.Md5Hash(dto.Password));
+            var user = _memberRepository.FindByPredicate(x => x.Email == dto.Email && x.Password == EncryptionHelper.Md5Hash(dto.Password));
             return user == null ? null : new UserDto
             {
                 Id = EncryptionHelper.Md5Hash(user.Id.ToString()),
-                Name = user.Name
+                Email = user.Email
             };
         }
     }
@@ -26,11 +26,11 @@ namespace School.Business.Manager
     public class UserDto
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string Email { get; set; }
     }
     public class UserLoginDto
     {
-        public string Username { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
     }
 }

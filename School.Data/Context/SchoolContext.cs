@@ -23,7 +23,8 @@ namespace School.Data.Context
         public DbSet<Teacher> Teacher { get; set; }
         public DbSet<StudentLesson> StudentLesson { get; set; }
         public DbSet<Classroom> Classroom { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Admin> Admin { get; set; }
+        public DbSet<Member> Member { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,7 +43,7 @@ namespace School.Data.Context
             modelBuilder.ApplyConfiguration(new LessonMap());
             modelBuilder.ApplyConfiguration(new StudentLessonMap());
             modelBuilder.ApplyConfiguration(new TeacherMap());
-            modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new MemberMap());
             base.OnModelCreating(modelBuilder);
         }
     }

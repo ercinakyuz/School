@@ -8,8 +8,6 @@ namespace School.Data.Mappping
     {
         public void Configure(EntityTypeBuilder<Student> builder)
         {
-            builder.Property(p => p.Firstname).IsRequired();
-            builder.Property(p => p.Lastname).IsRequired();
             builder.Property(p => p.Number).IsRequired();
         }
     }

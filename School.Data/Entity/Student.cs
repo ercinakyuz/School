@@ -4,10 +4,8 @@ namespace School.Data.Entity
 {
     public class Student : StandardEntity
     {
-        public virtual string Firstname { get; set; }
-        public virtual string Lastname { get; set; }
         public virtual string Number { get; set; }
-        public virtual User User { get; set; }
+        public virtual Member Member { get; set; }
         public virtual ICollection<StudentLesson> Lessons { get; set; }
     }
 }
