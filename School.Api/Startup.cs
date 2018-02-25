@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace School.Api
 {
@@ -19,11 +21,25 @@ namespace School.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        //options.Audience = "http://localhost:5001/";
+            //        //options.Authority = "http://localhost:5000/";
+            //    });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    //options.Audience = "http://localhost:5001/";
-                    //options.Authority = "http://localhost:5000/";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
                 });
         }
 
@@ -34,7 +50,6 @@ namespace School.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            var builder = new ConfigurationBuilder();
             app.UseAuthentication();
             app.UseMvc();
         }

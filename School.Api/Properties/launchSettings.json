@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Hurriyet.Api": {
+    "School.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/student",

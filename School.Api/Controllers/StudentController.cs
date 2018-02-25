@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Business.Manager;
 
 namespace School.Api.Controllers
 {
-    //[Route("api/[controller]")]
+    [Authorize]
     public class StudentController : ApiController
     {
         private static readonly List<Student> StudentList = new List<Student>();
@@ -15,14 +17,16 @@ namespace School.Api.Controllers
 
         public StudentController()
         {
+
             _studentManager = new StudentManager();
         }
 
         [HttpGet]
-        public IEnumerable<Student> Get()
+        public IEnumerable<StudentListDto> Get()
         {
+            var currentUser = User;
             var students = _studentManager.GetAll();
-            return StudentList.Any() ? StudentList : null;
+            return (students != null && students.Any()) ? students : null;
         }
 
         // GET api/values/5
