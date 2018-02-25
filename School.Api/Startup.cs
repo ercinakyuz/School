@@ -21,12 +21,6 @@ namespace School.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options =>
-            //    {
-            //        //options.Audience = "http://localhost:5001/";
-            //        //options.Authority = "http://localhost:5000/";
-            //    });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

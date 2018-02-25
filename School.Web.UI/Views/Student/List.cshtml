@@ -1,0 +1,48 @@
+﻿@model List<School.Model.Dto.Api.Student.StudentListDto>
+
+    @{
+    ViewBag.Title = "Öğrenciler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+<h5 class="pb-3"><i class="fa fa-child"></i> @ViewBag.Title</h5>
+
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    Öğrenci Adı
+                </th>
+                <th>
+                    Öğrenci Numarası
+                </th>
+                <th>
+                    <div class="pull-right">
+                    <a class="btn btn-sm btn-success" href="/Student/Create"><i class="fa fa-plus"></i> Öğrenci</a>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model!=null)
+        {
+            foreach (var student in Model)
+            {
+            <tr>
+                <td>
+                    @student.Firstname @student.Lastname
+                </td>
+                <td>
+                    @student.Number
+                </td>
+                <td class="pull-right">
+                    <a class="btn btn-sm btn-primary" href="/Student/Edit/@student.Id"><i class="fa fa-pencil"></i></a>
+                    <a class="btn btn-sm btn-danger" href="/Student/Delete/@student.Id" onclick="return confirm('@student.Number numaralı öğrenciyi silmek istediğinize emin misiniz?')"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            }
+        }
+
+        </tbody>
+    </table>

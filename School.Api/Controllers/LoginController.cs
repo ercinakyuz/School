@@ -7,44 +7,45 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using School.Business.Manager;
+using School.Model.Dto.Member;
 
 namespace School.Api.Controllers
 {
-    public class TokenController : ApiController
+    public class LoginController : ApiController
     {
         private readonly IConfiguration _config;
-        private readonly UserManager _userManager;
+        private readonly MemberManager _userManager;
 
-        public TokenController(IConfiguration config)
+        public LoginController(IConfiguration config)
         {
-            _userManager = new UserManager();
+            _userManager = new MemberManager();
             _config = config;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult CreateToken([FromBody]UserLoginDto dto)
+        public IActionResult CreateToken([FromBody]MemberLoginDto dto)
         {
             IActionResult response = Unauthorized();
-            var user = Authenticate(dto);
+            var member = Authenticate(dto);
 
-            if (user != null)
+            if (member != null)
             {
-                var tokenString = BuildToken(user);
-                response = Ok(new { token = tokenString });
+                member.Token = BuildToken(member);
+                response = Ok(member);
             }
 
             return response;
         }
 
-        private string BuildToken(UserDto user)
+        private string BuildToken(MemberDto member)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, member.Email),
+                new Claim(JwtRegisteredClaimNames.NameId, member.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
@@ -56,16 +57,10 @@ namespace School.Api.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private UserDto Authenticate(UserLoginDto dto)
+        private MemberDto Authenticate(MemberLoginDto dto)
         {
             var user = _userManager.GetUser(dto);
             return user;
-        }
-
-        public class LoginModel
-        {
-            public string Username { get; set; }
-            public string Password { get; set; }
         }
 
     }

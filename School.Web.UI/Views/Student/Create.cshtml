@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Öğrenci Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="pb-3"><i class="fa fa-child"></i> @ViewBag.Title</h5>
+
+<form method="post">
+
+    <div class="form-group row">
+        <label class="col-form-label col-2">Ad-Soyad</label>
+        <div class="col-5">
+            <input type="text" name="Firstname" class="form-control" placeholder="Adı" required />
+        </div>
+        <div class="col-5">
+            <input type="text" name="Lastname" class="form-control" placeholder="Soyadı" required />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label col-2">Email</label>
+        <div class="col-10">
+            <input type="email" name="Email" class="form-control" placeholder="E-mail" required />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-2 col-10">
+            <input type="submit" value="Ekle" class="btn btn-success pull-right"/>
+        </div>
+    </div>
+
+</form>
+
+@section CustomScript {
+
+
+}
+
+
+
+

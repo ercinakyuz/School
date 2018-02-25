@@ -1,0 +1,204 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.ico" />
+    <link href="~/style/main.css" rel="stylesheet" />
+    <script src="~/script/jquery-3.2.1.js"></script>
+    <link href="~/style/font-awesome.css" rel="stylesheet" />
+    <link href="~/style/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /*
+        /* Created by Filipe Pina
+         * Specific styles of signin, register, component
+         */
+        /*
+         * General styles
+         */
+        #playground-container {
+            height: 500px;
+            overflow: hidden !important;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        body, html {
+            height: 100%;
+            background: #ccc;
+            font-family: 'Oxygen', sans-serif;
+            background-size: cover;
+        }
+
+        .main {
+            margin: 50px 15px;
+        }
+
+        h1.title {
+            font-size: 50px;
+            font-family: 'Passion One', cursive;
+            font-weight: 400;
+        }
+
+        hr {
+            width: 10%;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            margin-bottom: 15px;
+        }
+
+        input,
+        input::-webkit-input-placeholder {
+            font-size: 11px;
+            padding-top: 3px;
+        }
+
+        .main-login {
+            background-color: #fff;
+            /* shadows and rounded borders */
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-control {
+            height: auto !important;
+            padding: 8px 12px !important;
+        }
+
+        .input-group {
+            -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21) !important;
+            -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21) !important;
+            box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21) !important;
+        }
+
+        #button {
+            border: 1px solid #ccc;
+            margin-top: 28px;
+            padding: 6px 12px;
+            color: #666;
+            text-shadow: 0 1px #fff;
+            cursor: pointer;
+            -moz-border-radius: 3px 3px;
+            -webkit-border-radius: 3px 3px;
+            border-radius: 3px 3px;
+            -moz-box-shadow: 0 1px #fff inset, 0 1px #ddd;
+            -webkit-box-shadow: 0 1px #fff inset, 0 1px #ddd;
+            box-shadow: 0 1px #fff inset, 0 1px #ddd;
+            background: #f5f5f5;
+            background: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f5f5f5), color-stop(100%, #eeeeee));
+            background: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            background: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            background: -ms-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            background: linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#eeeeee', GradientType=0);
+        }
+
+        .main-center {
+            margin-top: 30px;
+            margin: 0 auto;
+            width: 370px;
+            /*max-width: 400px;*/
+            padding: 10px 40px;
+            background: #313131;
+            color: #FFF;
+            text-align: center;
+            text-shadow: none;
+            -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+            -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+            box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+        }
+
+        span.input-group-addon i {
+            color: #009edf;
+            font-size: 17px;
+        }
+
+        .login-button {
+            margin-top: 5px;
+        }
+
+        .login-register {
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .error {
+            margin-top: 18px;
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+            .error i {
+                font-size: 18px;
+                margin-right: 5px;
+            }
+    </style>
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row main">
+            <div class="main-login main-center">
+                <h4 class="mb-4 mt-3">Okul Yönetim Paneli</h4>
+                <form class="" method="post">
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                </div>
+                                <input type="text" class="form-control" name="Email" id="email" placeholder="E-Posta" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                </div>
+                                <input type="password" class="form-control" name="Password" id="password" placeholder="Şifre" required />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group ">
+                        <input type="hidden" name="RequestedUrl" value="@ViewBag.RequestedUrl" />
+                        <input type="submit" id="btnLogin" value="Giriş" class="btn btn-success btn-block login-button">
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="error"><i class="fa fa-info-circle"></i> @TempData["ErrorMessage"]</div>
+                        }
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="~/script/bootstrap.js"></script>
+</body>
+</html>

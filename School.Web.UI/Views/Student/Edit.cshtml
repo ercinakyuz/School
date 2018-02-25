@@ -1,0 +1,53 @@
+﻿@model School.Model.Dto.Api.Student.StudentDetailDto
+@{
+    ViewBag.Title = "Öğrenci Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="pb-3"><i class="fa fa-child"></i> @ViewBag.Title</h5>
+
+<form method="post">
+
+    <div class="form-group row">
+        <label class="col-form-label col-2">Ad-Soyad</label>
+        <div class="col-5">
+            <input type="text" name="Firstname" class="form-control" placeholder="Adı" value="@Model.Firstname" required />
+        </div>
+        <div class="col-5">
+            <input type="text" name="Lastname" class="form-control" placeholder="Soyadı" value="@Model.Lastname" required />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label col-2">Öğrenci No</label>
+        <div class="col-10">
+            <input type="text" class="form-control" placeholder="Öğrenci No" value="@Model.Number" disabled required />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label col-2">Email</label>
+        <div class="col-10">
+            <input type="email" name="Email" class="form-control" placeholder="E-mail" value="@Model.Email" required />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label col-2">Şifre</label>
+        <div class="col-10">
+            <input type="password" name="Password" class="form-control" placeholder="Şifre Değiştirmek İstemiyorsanız Boş Bırakın" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-2 col-10">
+            <input type="submit" value="Kaydet" class="btn btn-primary pull-right" />
+        </div>
+    </div>
+
+</form>
+
+@section CustomScript {
+
+
+}
+
+
+
+

@@ -4,6 +4,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using School.Business.Manager;
+using School.Model.Dto.Api.Student;
 
 namespace School.Api.Controllers
 {
@@ -21,7 +22,7 @@ namespace School.Api.Controllers
         public IEnumerable<StudentListDto> Get()
         {
             var students = _studentManager.GetAll();
-            return students.Any() ? students : null;
+            return students;
         }
 
         // GET api/values/5
@@ -29,6 +30,10 @@ namespace School.Api.Controllers
         public StudentDetailDto Get(int id)
         {
             var student = _studentManager.Find(id);
+            if (student == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
             return student;
         }
 
@@ -51,12 +56,17 @@ namespace School.Api.Controllers
             if (ModelState.IsValid)
             {
                 updatedStudent = _studentManager.Update(dto);
+                if (updatedStudent == null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                }
+
             }
             else
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
             }
-            
+
             return updatedStudent;
         }
 
@@ -64,6 +74,14 @@ namespace School.Api.Controllers
         public StudentDeletedDto Delete(int id)
         {
             var deletedStudent = _studentManager.Delete(id);
+            if (deletedStudent == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.NoContent;
+            }
             return deletedStudent;
         }
     }
