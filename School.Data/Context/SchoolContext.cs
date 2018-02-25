@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using School.Common.Enum;
 using School.Common.Helper;
 using School.Data.Entity;
 using School.Data.Mappping;
@@ -11,12 +12,24 @@ namespace School.Data.Context
     {
         public SchoolContext()
         {
-            //User.Add(new User
-            //{
-            //    Name = "ercin.akyuz",
-            //    Password = EncryptionHelper.Md5Hash("123456")
-            //});
-            //SaveChanges();
+            #region Default Admin
+            if (!Member.Any())
+            {
+                Member.Add(new Member
+                {
+                    Email = "b.ercin.akyuz@gmail.com",
+                    Password = EncryptionHelper.Md5Hash("123456"),
+                    Firstname = "Erçin",
+                    Lastname = "Akyüz",
+                    Admin = new Admin
+                    {
+                        Role = RoleType.Super
+                    }
+
+                });
+                SaveChanges();
+            } 
+            #endregion
         }
         public DbSet<Student> Student { get; set; }
         public DbSet<Lesson> Lesson { get; set; }

@@ -14,10 +14,10 @@ namespace School.Data.Repository
         TEntity FindByPredicate(Expression<Func<TEntity, bool>> predicate);
         TEntity FindById(int id);
         TEntity Insert(TEntity entity);
-        bool InsertMany(List<TEntity> entities);
-        bool Update(TEntity entity);
-        bool UpdateMany(IEnumerable<TEntity> entities);
-        bool Delete(TEntity entity);
+        IEnumerable<TEntity> InsertMany(List<TEntity> entities);
+        TEntity Update(TEntity entity);
+        IEnumerable<TEntity> UpdateMany(IEnumerable<TEntity> entities);
+        TEntity Delete(TEntity entity);
         int GetMax(Expression<Func<TEntity, int>> predicate);
 
 

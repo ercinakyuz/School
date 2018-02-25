@@ -29,18 +29,9 @@ namespace School.Data.Repository
 
         public TEntity Insert(TEntity entity)
         {
-            try
-            {
-                Context.Set<TEntity>().Add(entity);
-                Context.SaveChanges();
-
-            }
-            catch (Exception exception)
-            {
-            }
-
+            Context.Set<TEntity>().Add(entity);
+            Context.SaveChanges();
             return entity;
-
         }
 
         public IEnumerable<TEntity> GetByPredicate(Expression<Func<TEntity, bool>> predicate)
@@ -63,23 +54,12 @@ namespace School.Data.Repository
             return Context.Set<TEntity>().Find(id);
         }
 
-        public bool InsertMany(List<TEntity> entities)
+        public IEnumerable<TEntity> InsertMany(List<TEntity> entities)
         {
-            bool result;
-            try
-            {
-                Context.Set<TEntity>().AddRange(entities);
-                Context.SaveChanges();
-                result = true;
 
-            }
-            catch (Exception exception)
-            {
-                result = false;
-            }
-
-            return result;
-
+            Context.Set<TEntity>().AddRange(entities);
+            Context.SaveChanges();
+            return entities;
         }
 
         public bool TruncateTable(string tableName)
@@ -126,43 +106,22 @@ namespace School.Data.Repository
 
         }
 
-        public bool UpdateMany(IEnumerable<TEntity> entities)
+        public IEnumerable<TEntity> UpdateMany(IEnumerable<TEntity> entities)
         {
-            bool result;
-            try
+            foreach (var entity in entities)
             {
-                foreach (var entity in entities)
-                {
-                    Context.Entry(entity).State = EntityState.Modified;
-                }
-                Context.SaveChanges();
-                result = true;
-
+                Context.Entry(entity).State = EntityState.Modified;
             }
-            catch (Exception exception)
-            {
-                result = false;
-            }
-
-            return result;
+            Context.SaveChanges();
+            return entities;
 
         }
 
-        public bool Update(TEntity entity)
+        public TEntity Update(TEntity entity)
         {
-            bool result = false;
-            try
-            {
-                Context.Entry(entity).State = EntityState.Modified;
-                Context.SaveChanges();
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                // ignored
-            }
-
-            return result;
+            Context.Entry(entity).State = EntityState.Modified;
+            Context.SaveChanges();
+            return entity;
         }
 
         public void Update(TEntity entity, out TEntity updatedEntity)
@@ -180,21 +139,11 @@ namespace School.Data.Repository
 
         }
 
-        public bool Delete(TEntity entity)
+        public TEntity Delete(TEntity entity)
         {
-            bool result;
-            try
-            {
-                Context.Set<TEntity>().Remove(entity);
-                Context.SaveChanges();
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                result = false;
-            }
-
-            return result;
+            Context.Set<TEntity>().Remove(entity);
+            Context.SaveChanges();
+            return entity;
         }
 
         public int GetMax(Expression<Func<TEntity, int>> predicate)
@@ -202,9 +151,8 @@ namespace School.Data.Repository
             return Context.Set<TEntity>().Max(predicate);
         }
         public IEnumerable<TEntity> GetWithNavigationProperties(IQueryable<TEntity> query,
-            List<Expression<System.Func<TEntity, object>>> navigationProperties)
+            List<Expression<Func<TEntity, object>>> navigationProperties)
         {
-
             if (navigationProperties != null)
             {
                 query = navigationProperties.Aggregate(query,
