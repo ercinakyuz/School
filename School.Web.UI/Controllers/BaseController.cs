@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
@@ -17,22 +20,26 @@ namespace School.Web.UI.Controllers
             BaseApiUrl = Config["Api:BaseUrl"];
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             AccessToken = HttpContext.Session.GetString("AccessToken");
             if (string.IsNullOrEmpty(AccessToken))
             {
-                string localUrl = Request.Path;
-                if (localUrl == "/account/login")
-                {
-                    Response.Redirect("/account/login");
-                }
-                else
-                {
-                    Response.Redirect("/account/login?requestedUrl=" + localUrl);
-                }
+                ForceToLogin();
             }
+            return base.OnActionExecutionAsync(context, next);
         }
+
+        public void ForceToLogin()
+        {
+            string localUrl = Request.Path;
+            AccessToken = "";
+            HttpContext.Session.SetString("AccessToken", AccessToken);
+            if (localUrl != "/account/login")
+                Response.Redirect("/account/login?requestedUrl=" + localUrl);
+        }
+
+
 
     }
 }

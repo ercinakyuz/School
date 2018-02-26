@@ -26,7 +26,7 @@ namespace School.Web.UI.Controllers
             {
                 httpClient.BaseAddress = new Uri(BaseApiUrl);
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-                HttpResponseMessage httpResponse = await httpClient.GetAsync("student/");
+                var httpResponse = await httpClient.GetAsync("student/");
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     string jsonString = await httpResponse.Content.ReadAsStringAsync();
@@ -34,7 +34,7 @@ namespace School.Web.UI.Controllers
                 }
                 else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
                 {
-
+                    ForceToLogin();
                 }
             }
             return View(students);
@@ -59,8 +59,12 @@ namespace School.Web.UI.Controllers
                     var studentCreated = JsonConvert.DeserializeObject<StudentCreatedDto>(jsonString);
                     return RedirectToAction("Edit", new { id = studentCreated.Id });
                 }
+                else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    ForceToLogin();
+                }
             }
-            return RedirectToAction("List");
+            return RedirectToAction("Create");
         }
         public async Task<IActionResult> Edit(int id)
         {
@@ -74,6 +78,10 @@ namespace School.Web.UI.Controllers
                 {
                     string jsonString = await httpResponse.Content.ReadAsStringAsync();
                     studentDetail = JsonConvert.DeserializeObject<StudentDetailDto>(jsonString);
+                }
+                else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    ForceToLogin();
                 }
             }
             return View(studentDetail);
@@ -94,6 +102,10 @@ namespace School.Web.UI.Controllers
                     string jsonString = await httpResponse.Content.ReadAsStringAsync();
                     studentUpdated = JsonConvert.DeserializeObject<StudentUpdatedDto>(jsonString);
                 }
+                else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    ForceToLogin();
+                }
             }
             return RedirectToAction("Edit", new { id = dto.Id });
         }
@@ -111,6 +123,10 @@ namespace School.Web.UI.Controllers
                 {
                     string jsonString = await httpResponse.Content.ReadAsStringAsync();
                     studentDeleted = JsonConvert.DeserializeObject<StudentDeletedDto>(jsonString);
+                }
+                else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    ForceToLogin();
                 }
             }
             return RedirectToAction("List");

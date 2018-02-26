@@ -22,6 +22,7 @@ namespace School.Web.UI.Controllers
 
         public IActionResult Login(string requestedUrl)
         {
+            ViewBag.RequestedUrl = requestedUrl;
             return View();
         }
         [HttpPost]
@@ -37,15 +38,21 @@ namespace School.Web.UI.Controllers
                     string jsonMember = await httpResponse.Content.ReadAsStringAsync();
                     var member = JsonConvert.DeserializeObject<MemberDto>(jsonMember);
                     HttpContext.Session.SetString("AccessToken", member.Token);
-                    return string.IsNullOrEmpty(requestedUrl) ? Redirect("/") : Redirect(requestedUrl);
+                    return string.IsNullOrEmpty(requestedUrl) ? (ActionResult)RedirectToAction("Index", "Home") : Redirect(requestedUrl);
                 }
                 else
                 {
                     HttpContext.Session.SetString("AccessToken", "");
                     TempData["ErrorMessage"] = "Geçersiz kullanıcı!";
-                    return RedirectToAction("Login");
+                    return RedirectToAction("Login", new {requestedUrl });
                 }
             }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.SetString("AccessToken", "");
+            return RedirectToAction("Login");
         }
     }
 }
